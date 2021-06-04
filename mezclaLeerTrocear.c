@@ -5,7 +5,7 @@
 
 int abrirDirectorio();
 void procesoArchivo();
-char * trocearCadena();
+char *trocearCadena();
 
 int main()
 {
@@ -47,19 +47,27 @@ void procesoArchivo(char *archivo)
         fclose(fich);
         /* Si todo va bien, decimos el tamaño */
         printf("%30s (%ld bytes)\n", archivo, ftam);
-        printf("%30s\n", trocearCadena(archivo));
+        printf("%s", trocearCadena(archivo));
     }
-    else{
+    else
+    {
         /* Si ha pasado algo, sólo decimos el nombre */
         printf("%30s (No info.)\n", archivo);
-        printf("%30s\n", trocearCadena(archivo));
+        printf("%s", trocearCadena(archivo));
     }
 }
 
-char * trocearCadena(char * archivo){
+char *trocearCadena(char *archivo)
+{
+    /*Copio el nombre del archivo, ya que no puedo cortarlo directamente*/
+    char archivoCorte[strlen(archivo)];
+    strcpy(archivoCorte, archivo); 
     /*Establezco un delimitador*/
-    char delimitador [] = "D";
+    char delimitador[] = "D";
     /*Corto la cadena hasta el delimitador*/
-    char * resultado = strtok(archivo, delimitador);
+    char *resultado = strtok(archivoCorte, delimitador);
+    /*Despues de cortar, asigno el valor de fin de cadena*/
+    archivoCorte[strlen(archivoCorte)+1] = '\0'; 
+    printf("%s", resultado);
     return resultado;
 }

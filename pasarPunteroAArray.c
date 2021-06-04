@@ -1,13 +1,10 @@
 #include <stdio.h>
+#include <string.h>
 
 int main()
 {
-    char cadena[20];
     char *cadenaInicio = "Hola Mundo";
-    for (int i = 0; i < 10; i++)
-    {
-        cadena[i] = *cadenaInicio + i;
-    }
-
+    char cadena[strlen(cadenaInicio+1)];
+    strcpy(cadena, cadenaInicio);
     printf("'%s' da como resultado '%s'", cadenaInicio, cadena);
 }
