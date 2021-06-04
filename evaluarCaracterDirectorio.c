@@ -11,8 +11,10 @@
 void error(const char *s);
 /* Función que hace algo con un archivo */
 void procesoArchivo(char *archivo);
-
+/*Si es distinto en el año, creará un directorio*/
 void evaluarCaracter(char nombre[]);
+/*Mueve el archivo*/
+void moverArchivo(char archivo[], char directorioDestino[]);
 
 int main()
 {
@@ -21,7 +23,7 @@ int main()
     /* en *ent habrá información sobre el archivo que se está "sacando" a cada momento */
     struct dirent *ent;
     /* Empezaremos a leer en el directorio actual */
-    dir = opendir(".");
+    dir = opendir("C:/Users/carlo/Desktop/ProyectoOrganizarFotos/Fotos_de_prueba");
     /* Miramos que no haya error */
     if (dir == NULL)
         error("No puedo abrir el directorio");
@@ -78,17 +80,41 @@ void procesoArchivo(char *archivo)
 
 void evaluarCaracter(char nombre[])
 {
-    if (nombre[4] == 'u')
+    if (nombre[11] == '1')
     {
-        printf("Entra");
+        printf("Entra\n");
         char directorio[100];
-        strcpy(directorio, nombre);
-        directorio[strlen(directorio) - 1] = '\0';
-        printf("%s", directorio);
+        strcpy(directorio, "C:/Users/carlo/Desktop/ProyectoOrganizarFotos/Fotos_de_prueba/2021");
+        printf("%s\n", directorio);
         if (mkdir(directorio) == -1)
         {
-            printf("Algo ha ido mal");
-            perror("fuck: ");
+            if (errno == 17)
+            {
+                moverArchivo(nombre, directorio);
+            }
+            else
+            {
+                perror("fuck: ");
+                printf("%d", errno);
+            }
         }
+        else
+        {
+            moverArchivo(nombre, directorio);
+        }
+    }
+}
+
+void moverArchivo(char archivo[], char directorioDestino[])
+{
+    //printf("%s\n", destination);
+    if (rename(archivo, strcat("/2021", archivo)) != -1)
+    {
+        printf("Success");
+    }
+    else
+    {
+        perror("Fuck: ");
+        printf("%d", errno);
     }
 }
