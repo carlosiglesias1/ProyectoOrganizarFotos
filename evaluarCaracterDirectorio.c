@@ -84,7 +84,7 @@ void evaluarCaracter(char nombre[])
     {
         printf("Entra\n");
         char directorio[100];
-        strcpy(directorio, "C:/Users/carlo/Desktop/ProyectoOrganizarFotos/Fotos_de_prueba/2021");
+        strcpy(directorio, "2021");
         printf("%s\n", directorio);
         if (mkdir(directorio) == -1)
         {
@@ -107,14 +107,18 @@ void evaluarCaracter(char nombre[])
 
 void moverArchivo(char archivo[], char directorioDestino[])
 {
-    //printf("%s\n", destination);
-    if (rename(archivo, strcat("/2021", archivo)) != -1)
+    char destination[250];
+    strcpy(destination, directorioDestino);
+    strcat(destination, "/");
+    strcat(destination, archivo);
+    printf("%s\n", destination);
+    if (rename(archivo, destination) != -1)
     {
         printf("Success");
     }
     else
     {
-        perror("Fuck: ");
+        perror("Rename Fail ");
         printf("%d", errno);
     }
 }
