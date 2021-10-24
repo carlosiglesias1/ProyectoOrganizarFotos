@@ -17,7 +17,7 @@ int main()
   struct dirent *ent;
 
   /* Empezaremos a leer en el directorio actual */
-  dir = opendir (".");
+  dir = opendir ("..");
 
   /* Miramos que no haya error */
   if (dir == NULL)

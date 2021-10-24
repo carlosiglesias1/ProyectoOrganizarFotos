@@ -24,7 +24,7 @@ int abrirDirectorio()
     //struct dirent *ent;
     struct dirent *ent;
     /* Empezaremos a leer en el directorio actual */
-    dir = opendir("F:/Fotos/WhatsApp Images");
+    dir = opendir("F:/Fotos/WhatsApp Images/Private");
 
     /* Miramos que no haya error */
     if (dir == NULL)

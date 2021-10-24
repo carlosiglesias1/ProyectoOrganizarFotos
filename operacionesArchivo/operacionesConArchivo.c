@@ -1,24 +1,29 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include <errno.h>
 #include "../creaDirectorio/crearDirectorio.h"
 //crea varios trozos de la cadena utilizando como delimitador el guion medio
 int trocearCadena(char *cadena, char *trozos[]);
 /*Mueve el archivo*/
-void moverArchivo(char archivo[], char directorioDestino[]);
+void moverArchivo(char *filename,char archivo[], char directorioDestino[]);
 //operamos segun el año del archivo
 //Usamos
 int calcularAno(char *cadena);
-void operarAno(char *trozos[], int contador);
+void operarAno(char *filename, char *trozos[], int contador, char *directorioOperacion);
 
-int main()
+/*int main()
 {
-    char cadena[] = "IMG-20180303-WA0005.jpg";
+    char cadena[] = "IMG-20180308-WA0011.jpg";
+    char archivo[strlen(cadena)];
+    strcpy(archivo, cadena);
     char *trozos[5];
-    trocearCadena(cadena, trozos);
-    printf("%s ---> %s\n", trozos[0], trozos[1]);
-    operarAno(trozos, 2015);
-}
+    if (trocearCadena(cadena, trozos) > 0)
+    {
+        printf("%s ---> %s : %s\n", trozos[0], trozos[1], archivo);
+        operarAno(archivo, trozos, 2015, "../Fotos de prueba");
+    }
+}*/
 
 int trocearCadena(char *cadena, char *trozos[])
 {
@@ -31,16 +36,17 @@ int trocearCadena(char *cadena, char *trozos[])
     return i;
 }
 
-void moverArchivo(char archivo[], char directorioDestino[])
+void moverArchivo(char *filename, char rutaArchivo[], char directorioDestino[])
 {
     char destination[250];
     strcpy(destination, directorioDestino);
     strcat(destination, "/");
-    strcat(destination, archivo);
+    strcat(destination, filename);
+    printf("%s\n", rutaArchivo);
     printf("%s\n", destination);
-    if (rename(archivo, destination) != -1)
+    if (rename(rutaArchivo, destination) != -1)
     {
-        printf("Success");
+        printf("Success\n");
     }
     else
     {
@@ -57,25 +63,35 @@ int calcularAno(char *cadena)
     return atoi(ano);
 }
 
-void operarAno(char *trozos[], int contador)
+void operarAno(char *filename, char *trozos[], int contador, char *directorioOperacion)
 {
-    char * folder;
+    char anoStr [strlen(trozos[1])];
+    char folder[255] = "";
+    char origen[100] = "";
     int ano = calcularAno(trozos[1]);
-    printf("%d\n", ano);
-    if (ano > contador)
+    printf("%30d\n", ano);
+    strcpy(origen, directorioOperacion);
+    strcat(origen, "/");
+    strcat(origen, filename);
+    strcpy(folder, directorioOperacion);
+    strcat(folder, "/");
+    strcat(folder, itoa(ano, anoStr, 10));
+    printf("\tMovemos desde %s a %s/%s\n", origen, folder, filename);
+    if (ano >= contador)
     {
-        itoa(ano, folder, 10);
+        contador = ano;
+        printf("%d\n", contador);
         if (createDirectory(folder) != 0)
         {
             if (errno == 17)
-                moverArchivo("IMG-20180303-WA0005.jpg", folder);
+                moverArchivo(filename,origen, folder);
             else
-                perror("Operation failed");
+                perror("Operation failed\n");
         }
         else
-            moverArchivo("IMG-20180303-WA0005.jpg", folder);
+            moverArchivo(filename,origen, folder);
     }
     else
-        printf("El año es menor");
-    printf("JODER");
+        moverArchivo(filename, origen, folder);
+    printf("JODER\n");
 }
