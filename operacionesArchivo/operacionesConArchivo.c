@@ -6,24 +6,11 @@
 //crea varios trozos de la cadena utilizando como delimitador el guion medio
 int trocearCadena(char *cadena, char *trozos[]);
 /*Mueve el archivo*/
-void moverArchivo(char *filename,char archivo[], char directorioDestino[]);
+void moverArchivo(char *filename, char archivo[], char directorioDestino[]);
 //operamos segun el año del archivo
 //Usamos
 int calcularAno(char *cadena);
 void operarAno(char *filename, char *trozos[], int contador, char *directorioOperacion);
-
-/*int main()
-{
-    char cadena[] = "IMG-20180308-WA0011.jpg";
-    char archivo[strlen(cadena)];
-    strcpy(archivo, cadena);
-    char *trozos[5];
-    if (trocearCadena(cadena, trozos) > 0)
-    {
-        printf("%s ---> %s : %s\n", trozos[0], trozos[1], archivo);
-        operarAno(archivo, trozos, 2015, "../Fotos de prueba");
-    }
-}*/
 
 int trocearCadena(char *cadena, char *trozos[])
 {
@@ -65,7 +52,7 @@ int calcularAno(char *cadena)
 
 void operarAno(char *filename, char *trozos[], int contador, char *directorioOperacion)
 {
-    char anoStr [strlen(trozos[1])];
+    char anoStr[strlen(trozos[1])];
     char folder[255] = "";
     char origen[100] = "";
     int ano = calcularAno(trozos[1]);
@@ -84,12 +71,12 @@ void operarAno(char *filename, char *trozos[], int contador, char *directorioOpe
         if (createDirectory(folder) != 0)
         {
             if (errno == 17)
-                moverArchivo(filename,origen, folder);
+                moverArchivo(filename, origen, folder);
             else
                 perror("Operation failed\n");
         }
         else
-            moverArchivo(filename,origen, folder);
+            moverArchivo(filename, origen, folder);
     }
     else
         moverArchivo(filename, origen, folder);
