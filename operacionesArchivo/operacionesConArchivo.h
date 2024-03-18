@@ -9,7 +9,7 @@ void moverArchivo(char *filename,char archivo[], char directorioDestino[]);
 //operamos segun el año del archivo
 //Usamos
 int calcularAno(char *cadena);
-void operarAno(char *filename, char *trozos[], int contador, char *directorioOperacion);
+void processYear(char *filename, char *trozos[], int contador, char *directorioOperacion);
 
 #include "operacionesConArchivo.c"
 

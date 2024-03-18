@@ -11,7 +11,8 @@ int createDirectory();
 
 int createDirectory(char * direccion)
 {
-    if (mkdir(direccion) == 0)
+    int dir_result = mkdir(direccion, 0700);
+    if (dir_result == 0 || dir_result == EEXIST)
         return EXIT_SUCCESS;
     else
         return errno;
